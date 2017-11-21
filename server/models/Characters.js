@@ -13,7 +13,7 @@ const CharacterSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     required: true,
     ref: 'Gatcha',
-    get: v => Gatcha.GatchaSchema.find({ _id: v }),
+    get: v => Gatcha.GatchaModel.find({ _id: v }),
   },
 
   owner: {

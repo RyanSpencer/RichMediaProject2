@@ -10,7 +10,7 @@ var handleRoll = function handleRoll(e) {
   return false;
 };
 
-var rollButton = function rollButton(props) {
+var RollButton = function RollButton(props) {
   return React.createElement(
     "form",
     { id: "rollButton",
@@ -19,7 +19,8 @@ var rollButton = function rollButton(props) {
       action: "/main",
       method: "POST",
       className: "rollButton" },
-    React.createElement("input", { clasName: "submitButton", type: "submit", value: "Roll Character" })
+    React.createElement("input", { clasName: "submitButton", type: "submit", value: "Roll Character" }),
+    React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf })
   );
 };
 
@@ -81,7 +82,8 @@ var loadTeam = function loadTeam() {
 };
 
 var setup = function setup(csrf) {
-  ReactDOM.render(React.createElement(DomoList, { team: [] }), document.querySelector("#team"));
+  ReactDOM.render(React.createElement(TeamList, { team: [] }), document.querySelector("#team"));
+  ReactDOM.render(React.createElement(RollButton, { csrf: csrf }), document.querySelector("#roll"));
   loadTeam();
 };
 

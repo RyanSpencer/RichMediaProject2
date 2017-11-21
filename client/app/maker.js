@@ -8,7 +8,7 @@ const handleRoll = (e) => {
   return false;
 };
 
-const rollButton = (props) => {
+const RollButton = (props) => {
   return (
     <form id="rollButton"
       onSubmit={handleRoll}
@@ -17,8 +17,9 @@ const rollButton = (props) => {
       method="POST"
       className="rollButton">
     <input clasName="submitButton" type="submit" value="Roll Character"/>
+    <input type="hidden" name="_csrf" value={props.csrf}/>
     </form>
-  )
+  );
 };
 
 const TeamList = function(props) {
@@ -58,7 +59,10 @@ const loadTeam = () => {
 
 const setup = function(csrf) {
   ReactDOM.render(
-    <DomoList team={[]} />, document.querySelector("#team")
+    <TeamList team={[]} />, document.querySelector("#team")
+  );
+  ReactDOM.render(
+    <RollButton csrf={csrf}/>, document.querySelector("#roll")
   );
   loadTeam();
 };

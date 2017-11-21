@@ -36,8 +36,14 @@ GatchaSchema.statics.randomizeByStar = (callback) => {
   } else {
     search.starRating = 5;
   }
-
-  return GatchaModel.find(search).exec(callback);
+  
+  return GatchaModel.count(search).exec( (err, count) => {
+    const rand = Math.floor(Math.random() * count);
+    
+     console.log(rand);
+    
+    return GatchaModel.findOne(search).skip(rand).exec(callback);
+  });
 };
 
 GatchaModel = mongoose.model('Gatcha', GatchaSchema);

@@ -59,11 +59,11 @@ app.use(session({
   },
 }));
 app.engine('handlebars', expressHandleBars({ defaultLayout: 'main' }));
-app.set('view enginge', 'handlebars');
+app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 app.disable('x-powered-by');
 app.use(cookieParser());
-app.use(csrf);
+app.use(csrf());
 app.use((err, req, res, next) => {
   if (err.code !== 'EBADCSRFTOKEN') return next(err);
 

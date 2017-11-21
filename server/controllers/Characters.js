@@ -38,11 +38,13 @@ const rollCharacter = (req, res) => {
       return res.status(400).json({ error: 'An error occured' });
     }
 
+    
     roll = docs;
 
     return res.status(200);
   });
 
+  console.log(roll);
   const characterData = {
     gatcha: roll._id,
     owner: req.session.account._id,

@@ -1,0 +1,74 @@
+const handleRoll = (e) => {
+  e.preventDefault();
+  
+  sendAjax('POST', $("#rollButton").attr("action"), $("#rollButton").serialize(), function() {
+    loadTeam();
+  });
+  
+  return false;
+};
+
+const rollButton = (props) => {
+  return (
+    <form id="rollButton"
+      onSubmit={handleRoll}
+      name="rollButton"
+      action="/main"
+      method="POST"
+      className="rollButton">
+    <input clasName="submitButton" type="submit" value="Roll Character"/>
+    </form>
+  )
+};
+
+const TeamList = function(props) {
+  if (props.team.length === 0) {
+    return (
+      <div className="teamList">
+        <h3 className="emptyTeam">You Have No Characters</h3>
+      </div>
+    );
+  }
+  
+  const teamNodes = props.team.map(function(char) {
+    return(
+      <div key={char._id} className="char">
+        <h3 className="charName"> Name: {char.gatcha.name}</h3>
+        <h3 className="charStar"> Age: {char.gatcha.star}</h3>
+        <h3 className="charPower">Location: {char.gatcha.power}</h3>
+        <h3 className="charLevel">Level: {char.level}</h3>
+      </div>
+    );
+  });
+  
+  return (
+    <div className="teamList">
+      {teamNodes}
+    </div>
+  );
+};
+
+const loadTeam = () => {
+  sendAjax('GET', '/getTeam', null, (data) => {
+    ReactDOM.render(
+      <TeamList team={data.team}/>, document.querySelector("#team")
+    );
+  });
+};
+
+const setup = function(csrf) {
+  ReactDOM.render(
+    <DomoList team={[]} />, document.querySelector("#team")
+  );
+  loadTeam();
+};
+
+const getToken = () => {
+  sendAjax('GET', '/getToken', null, (result) => {
+    setup(result.csrfToken);
+  });
+};
+
+$(document).ready(function() {
+  getToken();
+});

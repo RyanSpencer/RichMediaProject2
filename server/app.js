@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const compression = require('expression');
+const compression = require('compression');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -9,13 +9,13 @@ const expressHandleBars = require('express-handlebars');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const url = require('url');
-const crsf = require('csurf');
+const csrf = require('csurf');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const dbURL = process.envMONGODB_URI || 'mongodb://localhost/gatcha';
 
-mongoose.connect(dbURL, { useMongoClient: true}, (err) => {
+mongoose.connect(dbURL, { useMongoClient: true }, (err) => {
   if (err) {
     console.log('Could not connect to database');
     throw err;
@@ -58,17 +58,17 @@ app.use(session({
     httpOnly: true,
   },
 }));
-app.engine('handlebars', expressHandleBars({ defaultLayout: 'main'}));
+app.engine('handlebars', expressHandleBars({ defaultLayout: 'main' }));
 app.set('view enginge', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 app.disable('x-powered-by');
 app.use(cookieParser());
 app.use(csrf);
 app.use((err, req, res, next) => {
-  if (err.code !=== 'EBADCSRFTOKEN') return next(err);
-  
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
+
   console.log('Missing CSRF token');
-  retunr false;
+  return false;
 });
 
 router(app);
@@ -77,6 +77,6 @@ app.listen(port, (err) => {
   if (err) {
     throw err;
   }
-  
+
   console.log(`Listening on port ${port}`);
 });

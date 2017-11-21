@@ -1,20 +1,12 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const _ = require('underscore');
 
 let GatchaModel = {};
-
-const converId = mongoose.Types.ObjectId;
-const setName = (name) => _.escape(name).trim();
 
 const GatchaSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-  },
-  createdDate: {
-    type: Date,
-    default: Date.now,
   },
   starRating: {
     type: Number,
@@ -22,20 +14,30 @@ const GatchaSchema = new mongoose.Schema({
     max: 5,
     required: true,
   },
-  frequency: {
-    type: Number,
-    min: 0,
-    max: 100,
+  power: {
+    type: String,
     required: true,
   },
 });
+GatchaSchema.statics.toAPI = (doc) => ({
+  name: doc.name,
+  star: doc.starRating,
+  power: doc.power,
+  _id: doc._id,
+});
 
-GatchaSchema.statics.randomizeByStar = (star, callback) => {
-  const search = {
-    starRating: star,
-  };
-  
-  return GatchaModel.find(search).select('name, starRating, frequency').exec(callback);
+GatchaSchema.statics.randomizeByStar = (callback) => {
+  const search = {};
+  const roll = Math.random();
+  if (roll <= 0.59) {
+    search.starRating = 3;
+  } else if (roll <= 0.89) {
+    search.starRating = 4;
+  } else {
+    search.starRating = 5;
+  }
+
+  return GatchaModel.find(search).exec(callback);
 };
 
 GatchaModel = mongoose.model('Gatcha', GatchaSchema);

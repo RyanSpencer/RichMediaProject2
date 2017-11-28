@@ -13,7 +13,6 @@ const CharacterSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     required: true,
     ref: 'Gatcha',
-    get: v => Gatcha.GatchaModel.find({ _id: v }),
   },
 
   owner: {
@@ -44,7 +43,7 @@ CharacterSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return CharacterModel.find(search).select('name').exec(callback);
+  return CharacterModel.find(search).select('gatcha level').exec(callback);
 };
 
 CharacterModel = mongoose.model('Character', CharacterSchema);

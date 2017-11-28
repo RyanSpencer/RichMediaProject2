@@ -45,19 +45,19 @@ var TeamList = function TeamList(props) {
         "h3",
         { className: "charName" },
         " Name: ",
-        char.gatcha.name
+        char.name
       ),
       React.createElement(
         "h3",
         { className: "charStar" },
-        " Age: ",
-        char.gatcha.star
+        " Star Rating: ",
+        char.star
       ),
       React.createElement(
         "h3",
         { className: "charPower" },
-        "Location: ",
-        char.gatcha.power
+        "Power: ",
+        char.power
       ),
       React.createElement(
         "h3",

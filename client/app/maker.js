@@ -34,9 +34,9 @@ const TeamList = function(props) {
   const teamNodes = props.team.map(function(char) {
     return(
       <div key={char._id} className="char">
-        <h3 className="charName"> Name: {char.gatcha.name}</h3>
-        <h3 className="charStar"> Age: {char.gatcha.star}</h3>
-        <h3 className="charPower">Location: {char.gatcha.power}</h3>
+        <h3 className="charName"> Name: {char.name}</h3>
+        <h3 className="charStar"> Star Rating: {char.star}</h3>
+        <h3 className="charPower">Power: {char.power}</h3>
         <h3 className="charLevel">Level: {char.level}</h3>
       </div>
     );

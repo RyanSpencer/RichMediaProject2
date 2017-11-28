@@ -2,6 +2,7 @@ const models = require('../models');
 
 const Gatcha = models.Gatcha;
 const Characters = models.Characters;
+let teams = [];
 
 const mainPage = (req, res) => {
   Characters.CharacterModel.findByOwner(req.session.account._id, (err, docs) => {
@@ -23,14 +24,21 @@ const getTeam = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-
-    return res.json({ team: docs });
+    docs.map((team)=> {
+      Gatcha.GatchaModel.findById(team.gatcha, (err, doc) => {
+        teams.push({name: doc.name, star: doc.starRating, power: doc.power, level: team.level });   
+      });
+    });
+    
+    console.log(teams);
+    
+   
+    return res.json({ team: teams });
   });
 };
 
 
 const rollCharacter = (req, res) => {
-  let roll = {};
 
   Gatcha.GatchaModel.randomizeByStar((err, docs) => {
     if (err) {
@@ -38,31 +46,26 @@ const rollCharacter = (req, res) => {
       return res.status(400).json({ error: 'An error occured' });
     }
 
-    
-    roll = docs;
+    const characterData = {
+      gatcha: docs._id,
+      owner: req.session.account._id,
+    };
 
-    return res.status(200);
-  });
+    const newChar = new Characters.CharacterModel(characterData);
 
-  console.log(roll);
-  const characterData = {
-    gatcha: roll._id,
-    owner: req.session.account._id,
-  };
+    const charPromise = newChar.save();
 
-  const newChar = new Characters.CharacterModel(characterData);
+    charPromise.then(() => res.json({ redirect: '/main' }));
 
-  const charPromise = newChar.save();
+    charPromise.catch((err) => {
+      console.log(err);
 
-  charPromise.then(() => res.json({ redirect: '/main' }));
+      return res.status(400).json({ error: 'An error occured' });
+    });
 
-  charPromise.catch((err) => {
-    console.log(err);
+    return charPromise;
+    });
 
-    return res.status(400).json({ error: 'An error occured' });
-  });
-
-  return charPromise;
 };
 
 module.exports.mainPage = mainPage;

@@ -16,12 +16,11 @@ const makeGatcha = (char, res) => {
     starRating: char.star,
     power: char.power,
   };
-  
-  Gatcha.GatchaModel.find({name: char.name}, function(err, docs) {
+
+  Gatcha.GatchaModel.find({ name: char.name }, (err, docs) => {
     if (docs.length) {
-      console.log('Character already exists' + char.name);
-    }
-    else {
+      console.log(`Character already exists${char.name}`);
+    } else {
       const newGatcha = new Gatcha.GatchaModel(gatchaData);
 
       const gatchaPromise = newGatcha.save();

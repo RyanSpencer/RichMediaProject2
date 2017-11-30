@@ -25,12 +25,14 @@ const getTeam = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-    docs.map((team) => {
-      Gatcha.GatchaModel.findById(team.gatcha, (error, doc) => {
-        teams.push({ name: doc.name, star: doc.starRating, power: doc.power, level: team.level });
-      });
-    });
+    const gatchaIds = docs.map((team) => team.gatcha);
 
+
+    Gatcha.GatchaModel.find({ _id: { $in: { gatchaIds } } }, (error, teamArray) => {
+      for (let i = 0; i < docs.length; i++) {
+        teams.push({ name: teamArray[i].name, star: teamArray[i].starRating, power: teamArray[i].power, level: team.level });
+      }
+    });
     console.log(teams);
 
 

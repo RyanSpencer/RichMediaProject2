@@ -16,17 +16,24 @@ const makeGatcha = (char, res) => {
     starRating: char.star,
     power: char.power,
   };
+  
+  Gatcha.GatchaModel.find({name: char.name}, function(err, docs) {
+    if (docs.length) {
+      console.log('Character already exists' + char.name);
+    }
+    else {
+      const newGatcha = new Gatcha.GatchaModel(gatchaData);
 
-  const newGatcha = new Gatcha.GatchaModel(gatchaData);
+      const gatchaPromise = newGatcha.save();
 
-  const gatchaPromise = newGatcha.save();
+      gatchaPromise.catch((err) => {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occured' });
+      });
 
-  gatchaPromise.catch((err) => {
-    console.log(err);
-    return res.status(400).json({ error: 'An error occured' });
+      return gatchaPromise;
+    }
   });
-
-  return gatchaPromise;
 };
 
 const makeGatchas = (res) => {

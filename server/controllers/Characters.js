@@ -2,7 +2,7 @@ const models = require('../models');
 
 const Gatcha = models.Gatcha;
 const Characters = models.Characters;
-const teams = [];
+let teams = [];
 
 const mainPage = (req, res) => {
   Characters.CharacterModel.findByOwner(req.session.account._id, (err, docs) => {
@@ -18,6 +18,7 @@ const mainPage = (req, res) => {
 const getTeam = (request, response) => {
   const req = request;
   const res = response;
+  teams = [];
 
   return Characters.CharacterModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {

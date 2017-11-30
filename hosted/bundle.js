@@ -24,6 +24,32 @@ var RollButton = function RollButton(props) {
   );
 };
 
+var grabPhoto = function grabPhoto(name) {
+  switch (name) {
+    case "Senjougahara":
+      return "/assets/img/crab.jpg";
+      break;
+    case "Hachikuji":
+      return "/assets/img/snail.jpg";
+      break;
+    case "Kanbaru":
+      return "/assets/img/monkey.jpg";
+      break;
+    case "Nadeko":
+      return "/assets/img/snake.jpg";
+      break;
+    case "Hanekawa":
+      return "/assets/img/cat.jpg";
+      break;
+    case "Karen":
+      return "/assets/img/bee.jpg";
+      break;
+    default:
+      return "/assets/img/error.jpg";
+      break;
+  }
+};
+
 var TeamList = function TeamList(props) {
   if (props.team.length === 0) {
     return React.createElement(
@@ -41,6 +67,7 @@ var TeamList = function TeamList(props) {
     return React.createElement(
       "div",
       { key: char._id, className: "char" },
+      React.createElement("img", { className: "charPic", src: grabPhoto(char.name), alt: "Character Face" }),
       React.createElement(
         "h3",
         { className: "charName" },

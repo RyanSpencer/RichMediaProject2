@@ -2,3 +2,14 @@
   max-width: 5%;
   height: auto;
 }
+.char {
+  border: 1px solid black;
+  height: 250px;
+}
+.charPic {
+  width: 5%;
+  height: auto;
+  float: left;
+  margin: 10px;
+  margin-top: 20xp;
+}

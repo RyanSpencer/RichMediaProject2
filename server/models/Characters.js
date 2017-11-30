@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Gatcha = require('./Gatcha.js');
 
 mongoose.Promise = global.Promise;
 

@@ -22,6 +22,32 @@ const RollButton = (props) => {
   );
 };
 
+const grabPhoto = (name) => {
+  switch (name) {
+    case "Senjougahara": 
+      return "/assets/img/crab.jpg";
+      break;
+    case "Hachikuji":
+      return "/assets/img/snail.jpg"
+      break;
+    case "Kanbaru":
+      return "/assets/img/monkey.jpg"
+      break;
+    case "Nadeko":
+      return "/assets/img/snake.jpg"
+      break;
+    case "Hanekawa":
+      return "/assets/img/cat.jpg"
+      break;
+    case "Karen":
+      return "/assets/img/bee.jpg"
+      break;
+    default:
+      return "/assets/img/error.jpg"
+      break;
+  }
+};
+
 const TeamList = function(props) {
   if (props.team.length === 0) {
     return (
@@ -34,6 +60,7 @@ const TeamList = function(props) {
   const teamNodes = props.team.map(function(char) {
     return(
       <div key={char._id} className="char">
+        <img className="charPic" src={grabPhoto(char.name)} alt="Character Face"/>
         <h3 className="charName"> Name: {char.name}</h3>
         <h3 className="charStar"> Star Rating: {char.star}</h3>
         <h3 className="charPower">Power: {char.power}</h3>

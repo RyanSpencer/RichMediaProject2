@@ -4,10 +4,12 @@
 }
 .char {
   border: 1px solid black;
-  height: 250px;
+  height: 225px;
+  width: 300px;
+  float: left;
 }
 .charPic {
-  width: 5%;
+  width: 40%;
   height: auto;
   float: left;
   margin: 10px;

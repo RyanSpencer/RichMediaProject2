@@ -1,8 +1,19 @@
+let currentMoney = 0;
+
 const handleRoll = (e) => {
   e.preventDefault();
   
+  if (currentMoney < 2) {
+    handleError("Not Enough Money to Pull");
+    return false;
+  } 
+  
   sendAjax('POST', $("#rollButton").attr("action"), $("#rollButton").serialize(), function() {
     loadTeam();
+    sendAjax('POST', "/check", "currency=" + (currentMoney - 2) + "&_csrf=" + document.getElementsByName("_csrf")[0].value, function(data) {
+      currentMoney = data.currency;
+      document.querySelector("#lots").textContent = data.currency;
+    });
   });
   
   return false;
@@ -16,7 +27,7 @@ const RollButton = (props) => {
       action="/main"
       method="POST"
       className="rollButton">
-    <input clasName="submitButton" type="submit" value="Roll Character"/>
+    <input className="submitButton" type="submit" value="Roll Character"/>
     <input type="hidden" name="_csrf" value={props.csrf}/>
     </form>
   );
@@ -85,12 +96,19 @@ const loadTeam = () => {
 };
 
 const setup = function(csrf) {
+  const passwordButton = document.querySelector("#passwordButton");
+  
   ReactDOM.render(
     <TeamList team={[]} />, document.querySelector("#team")
   );
   ReactDOM.render(
     <RollButton csrf={csrf}/>, document.querySelector("#roll")
   );
+  sendAjax('GET', '/check', null, (data) => {
+    document.querySelector("#lots").textContent = data.currency;
+    currentMoney = data.currency;
+  });
+  
   loadTeam();
 };
 

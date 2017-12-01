@@ -19,19 +19,19 @@ const makeGatcha = (char, res) => {
 
   Gatcha.GatchaModel.find({ name: char.name }, (err, docs) => {
     if (docs.length) {
-      console.log(`Character already exists${char.name}`);
-    } else {
-      const newGatcha = new Gatcha.GatchaModel(gatchaData);
-
-      const gatchaPromise = newGatcha.save();
-
-      gatchaPromise.catch((err) => {
-        console.log(err);
-        return res.status(400).json({ error: 'An error occured' });
-      });
-
-      return gatchaPromise;
+      console.log(`Character already exists ${char.name}`);
+      return;
     }
+    const newGatcha = new Gatcha.GatchaModel(gatchaData);
+
+    const gatchaPromise = newGatcha.save();
+
+    gatchaPromise.catch((error) => {
+      console.log(error);
+      return res.status(400).json({ error: 'An error occured' });
+    });
+
+    return;
   });
 };
 

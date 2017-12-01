@@ -15,6 +15,10 @@ const mainPage = (req, res) => {
   });
 };
 
+const passwordPage = (req, res) => {
+  res.render('password', { csrfToken: req.csrfToken() });
+};
+
 const getTeam = (request, response) => {
   const req = request;
   const res = response;
@@ -27,16 +31,20 @@ const getTeam = (request, response) => {
     }
     const gatchaIds = docs.map((team) => team.gatcha);
 
+    Gatcha.GatchaModel.find({ _id: { $in: gatchaIds } }, (error, teamArray) => {
+      console.log(teamArray);
+      if (teamArray != null) {
+        for (let i = 0; i < teamArray.length; i++) {
+          teams.push({ name: teamArray[i].name, star: teamArray[i].starRating,
+            power: teamArray[i].power, level: docs[i].level });
+        }
 
-    Gatcha.GatchaModel.find({ _id: { $in: { gatchaIds } } }, (error, teamArray) => {
-      for (let i = 0; i < docs.length; i++) {
-        teams.push({ name: teamArray[i].name, star: teamArray[i].starRating, power: teamArray[i].power, level: team.level });
+        console.log(teams);
+
+        return res.json({ team: teams });
       }
+      return res.status(404).json({ error: 'No Characters Owned' });
     });
-    console.log(teams);
-
-
-    return res.json({ team: teams });
   });
 };
 
@@ -72,3 +80,4 @@ const rollCharacter = (req, res) => {
 module.exports.mainPage = mainPage;
 module.exports.getTeam = getTeam;
 module.exports.roll = rollCharacter;
+module.exports.passwordPage = passwordPage;

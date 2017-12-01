@@ -13,6 +13,10 @@ const router = (app) => {
   app.get('/main', mid.requiresLogin, controllers.Characters.mainPage);
   app.post('/main', mid.requiresLogin, controllers.Characters.roll);
   app.get('/getGatcha', controllers.Gatcha.getGatcha);
+  app.get('/check', mid.requiresLogin, controllers.Account.currency);
+  app.post('/check', mid.requiresLogin, controllers.Account.updateCurr);
+  app.get('/password', mid.requiresSecure, mid.requiresLogin, controllers.Account.passwordPage);
+  app.post('/password', mid.requiresSecure, mid.requiresLogin, controllers.Account.password);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

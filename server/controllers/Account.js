@@ -15,6 +15,20 @@ const logout = (req, res) => {
   res.redirect('/');
 };
 
+const getAccountCurrency = (req, res) => {
+  console.log(req.session.account);
+  return res.json({ currency: req.session.account.currency });
+};
+
+const updateAccountCurrency = (request, response) => {
+  const req = request;
+  const res = response;
+
+  req.session.account.currency = req.body.currency;
+
+  return res.json({ currency: req.session.account.currency });
+};
+
 const login = (request, response) => {
   const req = request;
   const res = response;
@@ -98,3 +112,6 @@ module.exports.logout = logout;
 module.exports.signupPage = signupPage;
 module.exports.signup = signup;
 module.exports.getToken = getToken;
+module.exports.currency = getAccountCurrency;
+module.exports.updateCurr = updateAccountCurrency;
+module.exports.passwordPage = passwordPage;

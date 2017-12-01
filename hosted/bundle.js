@@ -1,10 +1,21 @@
 "use strict";
 
+var currentMoney = 0;
+
 var handleRoll = function handleRoll(e) {
   e.preventDefault();
 
+  if (currentMoney < 2) {
+    handleError("Not Enough Money to Pull");
+    return false;
+  }
+
   sendAjax('POST', $("#rollButton").attr("action"), $("#rollButton").serialize(), function () {
     loadTeam();
+    sendAjax('POST', "/check", "currency=" + (currentMoney - 2) + "&_csrf=" + document.getElementsByName("_csrf")[0].value, function (data) {
+      currentMoney = data.currency;
+      document.querySelector("#lots").textContent = data.currency;
+    });
   });
 
   return false;
@@ -19,7 +30,7 @@ var RollButton = function RollButton(props) {
       action: "/main",
       method: "POST",
       className: "rollButton" },
-    React.createElement("input", { clasName: "submitButton", type: "submit", value: "Roll Character" }),
+    React.createElement("input", { className: "submitButton", type: "submit", value: "Roll Character" }),
     React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf })
   );
 };
@@ -109,8 +120,15 @@ var loadTeam = function loadTeam() {
 };
 
 var setup = function setup(csrf) {
+  var passwordButton = document.querySelector("#passwordButton");
+
   ReactDOM.render(React.createElement(TeamList, { team: [] }), document.querySelector("#team"));
   ReactDOM.render(React.createElement(RollButton, { csrf: csrf }), document.querySelector("#roll"));
+  sendAjax('GET', '/check', null, function (data) {
+    document.querySelector("#lots").textContent = data.currency;
+    currentMoney = data.currency;
+  });
+
   loadTeam();
 };
 

@@ -27,6 +27,8 @@ GatchaSchema.statics.toAPI = (doc) => ({
 });
 
 GatchaSchema.statics.randomizeByStar = (callback) => {
+  // Randomly determine which kind of character to roll
+  // 5 stars are less likely than 4 star which are less likely than 3
   const search = {};
   const roll = Math.random();
   if (roll <= 0.59) {
@@ -38,6 +40,7 @@ GatchaSchema.statics.randomizeByStar = (callback) => {
   }
 
   GatchaModel.count(search).exec((err, count) => {
+    // Randomize among the gatcha of that star and then choose one to return
     const rand = Math.floor(Math.random() * count);
 
     console.log(rand);

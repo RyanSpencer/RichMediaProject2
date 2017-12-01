@@ -114,4 +114,3 @@ module.exports.signup = signup;
 module.exports.getToken = getToken;
 module.exports.currency = getAccountCurrency;
 module.exports.updateCurr = updateAccountCurrency;
-module.exports.passwordPage = passwordPage;

@@ -1,5 +1,3 @@
-let currentMoney = 0;
-
 const handleRoll = (e) => {
   e.preventDefault();
   
@@ -163,11 +161,9 @@ const setup = function(csrf) {
   );
   ReactDOM.render(
     <RollButton csrf={csrf}/>, document.querySelector("#roll")
-  );
-  sendAjax('GET', '/check', null, (data) => {
-    document.querySelector("#lots").textContent = data.currency;
-    currentMoney = data.currency;
-  });
+  )
+  
+  loadCurrency();
   
   loadTeam();
 };

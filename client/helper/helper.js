@@ -1,9 +1,17 @@
+let currentMoney = 0;
+
 const handleError = (message) => {
   $("#errorMessage").text(message);
 };
 
 const redirect = (response) => {
   window.location = response.redirect;
+};
+const loadCurrency = () => {
+    sendAjax('GET', '/check', null, (data) => {
+      document.querySelector("#lots").textContent = data.currency;
+      currentMoney = data.currency;
+  });
 };
 
 const sendAjax = (type, action, data, success) => {

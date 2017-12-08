@@ -10,6 +10,10 @@ const signupPage = (req, res) => {
   res.render('signup', { csrfToken: req.csrfToken() });
 };
 
+const payPage = (req, res) => {
+  res.render('pay', { csrfToken: req.csrfToken() });
+};
+
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
@@ -23,6 +27,8 @@ const getAccountCurrency = (req, res) => {
 const updateAccountCurrency = (request, response) => {
   const req = request;
   const res = response;
+
+  console.log(req.body.currency);
 
   req.session.account.currency = req.body.currency;
 
@@ -114,3 +120,4 @@ module.exports.signup = signup;
 module.exports.getToken = getToken;
 module.exports.currency = getAccountCurrency;
 module.exports.updateCurr = updateAccountCurrency;
+module.exports.payPage = payPage;

@@ -1,7 +1,5 @@
 "use strict";
 
-var currentMoney = 0;
-
 var handleRoll = function handleRoll(e) {
   e.preventDefault();
 
@@ -192,10 +190,8 @@ var setup = function setup(csrf) {
 
   ReactDOM.render(React.createElement(TeamList, { team: [] }), document.querySelector("#team"));
   ReactDOM.render(React.createElement(RollButton, { csrf: csrf }), document.querySelector("#roll"));
-  sendAjax('GET', '/check', null, function (data) {
-    document.querySelector("#lots").textContent = data.currency;
-    currentMoney = data.currency;
-  });
+
+  loadCurrency();
 
   loadTeam();
 };
@@ -209,7 +205,9 @@ var getToken = function getToken() {
 $(document).ready(function () {
   getToken();
 });
-"use strict";
+'use strict';
+
+var currentMoney = 0;
 
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
@@ -217,6 +215,12 @@ var handleError = function handleError(message) {
 
 var redirect = function redirect(response) {
   window.location = response.redirect;
+};
+var loadCurrency = function loadCurrency() {
+  sendAjax('GET', '/check', null, function (data) {
+    document.querySelector("#lots").textContent = data.currency;
+    currentMoney = data.currency;
+  });
 };
 
 var sendAjax = function sendAjax(type, action, data, success) {

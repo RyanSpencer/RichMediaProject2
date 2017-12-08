@@ -73,14 +73,23 @@ const getTeam = (request, response) => {
     }
     // Grab all of the ids of the gatcha the player owns
     const gatchaIds = docs.map((team) => team.gatcha);
+    console.dir(gatchaIds);
 
     // use find with the $in tag to find all gatcha with those ids
     return Gatcha.GatchaModel.find({ _id: { $in: gatchaIds } }, (error, teamArray) => {
       if (teamArray != null) {
+        // got this code
+        // https://stackoverflow.com/questions/40730604/mongoose-find-with-multiple-ids-that-are-the-same
+        const obj = {};
+        teamArray.forEach((o) => {
+          obj[o._id] = o;
+        });
+        const dupArray = gatchaIds.map(id => obj[id]);
+
         // Loop through and add the information from the gatcha along with the level
-        for (let i = 0; i < teamArray.length; i++) {
-          teams.push({ name: teamArray[i].name, star: teamArray[i].starRating,
-            power: teamArray[i].power, level: docs[i].level });
+        for (let i = 0; i < dupArray.length; i++) {
+          teams.push({ name: dupArray[i].name, star: dupArray[i].starRating,
+            power: dupArray[i].power, level: docs[i].level });
         }
 
         console.log(teams);

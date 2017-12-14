@@ -22,6 +22,15 @@
 .char3 h3, .char4 h3, .char5 h3 {
   background: white;
 }
+#char {
+  float: right;
+  margin: 10px;
+  clear:right;
+}
+#team {
+  float: right;
+  margin: 10px;
+}
 .charPic {
   width: 40%;
   height: auto;

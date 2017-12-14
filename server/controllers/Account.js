@@ -20,7 +20,6 @@ const logout = (req, res) => {
 };
 
 const getAccountCurrency = (req, res) => {
-  console.log(req.session.account);
   return res.json({ currency: req.session.account.currency });
 };
 

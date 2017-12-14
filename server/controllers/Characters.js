@@ -88,7 +88,7 @@ const getTeam = (request, response) => {
 
         // Loop through and add the information from the gatcha along with the level
         for (let i = 0; i < dupArray.length; i++) {
-          teams.push({ name: dupArray[i].name, star: dupArray[i].starRating,
+          teams.push({ _id: docs[i]._id, name: dupArray[i].name, star: dupArray[i].starRating,
             power: dupArray[i].power, level: docs[i].level });
         }
 

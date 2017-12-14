@@ -19,6 +19,8 @@ const router = (app) => {
   app.post('/password', mid.requiresSecure, mid.requiresLogin, controllers.Characters.password);
   app.get('/pay', mid.requiresSecure, mid.requiresLogin, controllers.Account.payPage);
   app.post('/pay', mid.requiresSecure, mid.requiresLogin, controllers.Account.updateCurr);
+  app.get('/game', mid.requiresLogin, controllers.Game.gamePage);
+  app.post('/game', mid.requiresLogin, controllers.Game.game);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
